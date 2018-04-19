@@ -1,0 +1,31 @@
+{
+  "name": "socketsupstox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gauravseta/Sockets.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.6.6",
+    "angular-ui-router": "^0.4.3",
+    "express": "^4.15.4",
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "angular": "^1.6.6",
+    "angular-ui-router": "^0.4.3",
+    "express": "^4.15.4",
+    "gulp": "^3.9.1"
+  },
+  "bugs": {
+    "url": "https://github.com/Gauravseta/Sockets/issues"
+  },
+  "homepage": "https://github.com/Gauravseta/Sockets#readme"
+}
