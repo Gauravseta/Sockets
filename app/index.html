@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Upstox</title>
+        <link href="style/index.css">
+        <script src="../node_modules/angular/angular.min.js"></script>
+        <script src="../node_modules/socket.io-client/dist/socket.io.js"></script>
+        <script src="../node_modules/angular-socket-io/socket.js"></script>
+    </head>
+    <body ng-app="mainApp" ng-controller="mainController">
+        <div>
+            <h1>{{title}}</h1>
+            <button ng-click="subscribeTo()">Subscribe</button>
+            <button>UnSubscribe</button>
+        </div>
+        <script>
+            var socket = io.connect('http://kaboom.rksv.net/watch',{
+                           transports:['websocket','xhr-polling']
+                       });
+                        socket.on('connect', function () {
+                             console.log(socket.id);
+                             socket.emit("ping",{});
+                        });
+                        socket.on('data', function (data) {
+                           console.log(data);
+                            //socket.emit('my other event', { my: 'data' });
+                        });
+                        socket.on('error', function (data) {
+                           console.log(data);
+                            //socket.emit('my other event', { my: 'data' });
+                        });
+            angular.module('mainApp',['btford.socket-io'])
+                     /*.factory('mySocket',function(socketFactory){
+                        return socketFactory({
+                            prefix: '',
+                            ioSocket: io.connect('http://kaboom.rksv.net/watch',{
+                                transports:['xhr-polling'],
+                                path: '/socket.io'
+                            }) 
+                            ioSocket: io('http://kaboom.rksv.net/watch',{
+                                transports:['xhr-polling']
+                            })
+                        });
+                    }) */
+                    .controller('mainController',function($scope,$rootScope,$http){
+                        $scope.title="Upstox";
+                       /* mySocket.on('data', function(data){
+                            console.log(data);
+                        });
+                       mySocket.on('connect', function () {
+                            console.log(mySocket.id);
+                             mySocket.emit('ping',{});
+                        });
+                        mySocket.on('error', function (data) {
+                           console.log(data);
+                            //mySocket.emit('my other event', { my: 'data' });
+                        });*/
+                        $scope.subscribeTo = function() {
+                            $http({
+                                url: 'http://kaboom.rksv.net/',
+                                method: 'GET'
+                            }).then(function(success){
+                                console.log(success);
+                            },
+                            function(error){
+                                console.log(error);
+                            }); 
+                             //mySocket.emit('ping',{});
+                        }
+                    });
+        </script>
+    </body>
+</html>

@@ -3,13 +3,10 @@ var app=express();
 var path=require('path');
 
 
-app.use(express.static(path.join(__dirname + '/dist')));
-
+app.use(express.static(path.join(__dirname)));
 
 app.get('/',function(req,res){
-	res.sendFile(path.join(__dirname+'/dist/index.html'));
+	res.sendFile(path.join(__dirname+'/app/index.html'));
 });
 
-app.listen(process.env.PORT||8080,function(d){
-	console.log(`Server started on port ${server.address().port}`);
-});
+app.listen(process.env.PORT||8080);
