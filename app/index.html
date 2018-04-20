@@ -7,58 +7,59 @@
         <link href="style/index.css">
         <script src="../node_modules/angular/angular.min.js"></script>
         <script src="../node_modules/socket.io-client/dist/socket.io.js"></script>
-        <script src="../node_modules/angular-socket-io/socket.js"></script>
     </head>
     <body ng-app="mainApp" ng-controller="mainController">
         <div>
             <h1>{{title}}</h1>
-            <button ng-click="subscribeTo()">Subscribe</button>
-            <button>UnSubscribe</button>
+            <button ng-click="subscribeTo()">Send Ping</button>
+			<button ng-click="openSocket()">Open Socket</button>
+			<button ng-click="closeSocket()">Close Socket</button>
+			<button ng-click="clear()">Clear</button>
+			<div ng-repeat="message in messages track by $index">{{message}}</div>
         </div>
         <script>
-            var socket = io.connect('http://kaboom.rksv.net/watch',{
-                           transports:['websocket','xhr-polling']
-                       });
-                        socket.on('connect', function () {
-                             console.log(socket.id);
-                             socket.emit("ping",{});
-                        });
-                        socket.on('data', function (data) {
-                           console.log(data);
-                            //socket.emit('my other event', { my: 'data' });
-                        });
-                        socket.on('error', function (data) {
-                           console.log(data);
-                            //socket.emit('my other event', { my: 'data' });
-                        });
-            angular.module('mainApp',['btford.socket-io'])
-                     /*.factory('mySocket',function(socketFactory){
-                        return socketFactory({
-                            prefix: '',
-                            ioSocket: io.connect('http://kaboom.rksv.net/watch',{
-                                transports:['xhr-polling'],
-                                path: '/socket.io'
-                            }) 
-                            ioSocket: io('http://kaboom.rksv.net/watch',{
-                                transports:['xhr-polling']
-                            })
-                        });
-                    }) */
+    
+            angular.module('mainApp',[])
                     .controller('mainController',function($scope,$rootScope,$http){
                         $scope.title="Upstox";
-                       /* mySocket.on('data', function(data){
-                            console.log(data);
+						$scope.messages = [];
+						 var socket = io.connect('http://kaboom.rksv.net');
+                        socket.on('connect', function () {
+							$scope.messages.push('socket id:  '+socket.id);
+							$scope.messages.push('is socket connected:  '+socket.connected);
+							$scope.messages.push('is socket disconnected:  '+socket.disconnected);
+							$scope.$apply();
                         });
-                       mySocket.on('connect', function () {
-                            console.log(mySocket.id);
-                             mySocket.emit('ping',{});
+                        socket.on("data", function (data) {
+                           $scope.messages.push(data);
+						   $scope.$apply();
                         });
-                        mySocket.on('error', function (data) {
+                        socket.on("error", function (err) {
+                           $scope.messages.push(err);
+						   $scope.$apply();
+                        }); 
+						socket.on("connect_error", function (err) {
+                           $scope.messages.push(err);
+						   $scope.$apply();
+                        });
+						
+						socket.on("reconnect_attempt", function (data) {
                            console.log(data);
-                            //mySocket.emit('my other event', { my: 'data' });
-                        });*/
+                        });
+						socket.on("disconnect", function (data) {
+						   $scope.messages.push(data);
+                        });
+						
+						socket.on("ping", function () {
+							$scope.messages.push('ping sent');
+                        });
+						
+						socket.on('pong', (latency) => {
+							$scope.messages.push('pong received, but not in the data event handler');
+							$scope.$apply();
+						});
                         $scope.subscribeTo = function() {
-                            $http({
+                            /*$http({
                                 url: 'http://kaboom.rksv.net/',
                                 method: 'GET'
                             }).then(function(success){
@@ -66,9 +67,21 @@
                             },
                             function(error){
                                 console.log(error);
-                            }); 
-                             //mySocket.emit('ping',{});
+                            }); */
+							 socket.emit("ping",{});
                         }
+						
+						$scope.clear = function(){
+							$scope.messages = [];
+						}
+						
+						$scope.closeSocket = function() {
+							socket.close();
+						}
+						
+						$scope.openSocket = function() {
+							socket.open();
+						}
                     });
         </script>
     </body>
