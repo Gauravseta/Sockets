@@ -11,3 +11,4 @@
 ==================Known issues =======================
 
 1. Unable to connect to Websocket API, hence socket communication is made with local node server itself, and a counter has been implemented to prove the socket communication implementation.
+2. App has been developed to be viewed on latest chrome.
