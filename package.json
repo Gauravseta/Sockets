@@ -5,21 +5,25 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	  "postinstall": "node server.js"
+    "postinstall": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Gauravseta/Sockets.git"
+    "url": "https://github.com/Gauravseta/Sockets.git"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "angular": "^1.6.6",
+    "angular-chartist.js": "^4.3.4",
     "angular-socket-io": "^0.7.0",
     "angular-ui-router": "^0.4.3",
+    "chartist": "^0.11.0",
     "engine.io": "^3.2.0",
     "express": "^4.15.4",
     "gulp": "^3.9.1",
+    "http": "0.0.0",
+    "socket.io": "^2.1.0",
     "socket.io-client": "^2.1.0"
   },
   "devDependencies": {

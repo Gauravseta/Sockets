@@ -4,85 +4,36 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
         <title>Upstox</title>
-        <link href="style/index.css">
+        <link href="/app/style/index.css" rel = "stylesheet" type = "text/css">
+        <link href="../node_modules/chartist/dist/chartist.css" rel = "stylesheet" type = "text/css">
         <script src="../node_modules/angular/angular.min.js"></script>
         <script src="../node_modules/socket.io-client/dist/socket.io.js"></script>
+        <script src="../node_modules/angular-chartist.js/dist/angular-chartist.js"></script>
+        <script src="../node_modules/chartist/dist/chartist.js"></script>
     </head>
     <body ng-app="mainApp" ng-controller="mainController">
-        <div>
-            <h1>{{title}}</h1>
-            <button ng-click="subscribeTo()">Send Ping</button>
-			<button ng-click="openSocket()">Open Socket</button>
-			<button ng-click="closeSocket()">Close Socket</button>
-			<button ng-click="clear()">Clear</button>
-			<div ng-repeat="message in messages track by $index">{{message}}</div>
+        <header class="row space-between">
+            <div class="text-white">CAKE</div>
+            <div class="text-white">${{stockRate}}</div>     
+        </header>
+        <div class="content">
+            <div class="ct-chart h-200"></div>
+            <div class="column flex">
+                <div class="row space-between tabs">
+                    <div class="tab" ng-repeat="tab in tabs">{{tab}}</div>
+                </div>
+                <div class="row market-info-container">
+                        <market-info-table market-data="marketDataColumn1"></market-info-table>
+                        <market-info-table market-data="marketDataColumn2"></market-info-table>
+                </div>
+            </div>
         </div>
-        <script>
-    
-            angular.module('mainApp',[])
-                    .controller('mainController',function($scope,$rootScope,$http){
-                        $scope.title="Upstox";
-						$scope.messages = [];
-						 var socket = io.connect('http://kaboom.rksv.net');
-                        socket.on('connect', function () {
-							$scope.messages.push('socket id:  '+socket.id);
-							$scope.messages.push('is socket connected:  '+socket.connected);
-							$scope.messages.push('is socket disconnected:  '+socket.disconnected);
-							$scope.$apply();
-                        });
-                        socket.on("data", function (data) {
-                           $scope.messages.push(data);
-						   $scope.$apply();
-                        });
-                        socket.on("error", function (err) {
-                           $scope.messages.push(err);
-						   $scope.$apply();
-                        }); 
-						socket.on("connect_error", function (err) {
-                           $scope.messages.push(err);
-						   $scope.$apply();
-                        });
-						
-						socket.on("reconnect_attempt", function (data) {
-                           console.log(data);
-                        });
-						socket.on("disconnect", function (data) {
-						   $scope.messages.push(data);
-                        });
-						
-						socket.on("ping", function () {
-							$scope.messages.push('ping sent');
-                        });
-						
-						socket.on('pong', (latency) => {
-							$scope.messages.push('pong received, but not in the data event handler');
-							$scope.$apply();
-						});
-                        $scope.subscribeTo = function() {
-                            /*$http({
-                                url: 'http://kaboom.rksv.net/',
-                                method: 'GET'
-                            }).then(function(success){
-                                console.log(success);
-                            },
-                            function(error){
-                                console.log(error);
-                            }); */
-							 socket.emit("ping",{});
-                        }
-						
-						$scope.clear = function(){
-							$scope.messages = [];
-						}
-						
-						$scope.closeSocket = function() {
-							socket.close();
-						}
-						
-						$scope.openSocket = function() {
-							socket.open();
-						}
-                    });
-        </script>
+        <footer class="row center">
+            <button class="btn btn-buy">Buy</button>
+            <button class="btn btn-sell">Sell</button>
+        </footer>
+        <script src="/app/app.js"></script>
+        <script src="/app/services/market.service.js"></script>
+        <script src="/app/components/market-info-table/market-info-table.js"></script>
     </body>
 </html>
