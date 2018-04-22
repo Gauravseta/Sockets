@@ -6,3 +6,8 @@
 1.run "npm install"
 2.run "node server.js"
 3. Also environment variable "PORT" can be set, to run at different port than default port.
+
+
+==================Known issues =======================
+
+1. Unable to connect to Websocket API, hence socket communication is made with local node server itself, and a counter has been implemented to prove the socket communication implementation.
