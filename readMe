@@ -4,7 +4,7 @@
 ========Steps To run locally===========
 
 1.run "npm install"
-2.run "node server.js"
+2.run "npm start"
 3. Also environment variable "PORT" can be set, to run at different port than default port.
 
 
