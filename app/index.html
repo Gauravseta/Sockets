@@ -4,12 +4,21 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
         <title>Upstox</title>
-        <link href="/app/style/index.css" rel = "stylesheet" type = "text/css">
-        <link href="/app/components/market-info-table/market-info-table.css" rel = "stylesheet" type = "text/css">
+
+        <!-- build:css ../dist/upstox.min.css -->
+        <link href="../dist/css/style/index.css" rel = "stylesheet" type = "text/css">
+        <link href="../dist/css/components/market-info-table/market-info-table.css" rel = "stylesheet" type = "text/css">
+        <!-- endbuild -->
+
+        <!-- build:css ../dist/vendor.css -->
         <link href="../node_modules/chartist/dist/chartist.css" rel = "stylesheet" type = "text/css">
+        <!-- endbuild -->
+
+        <!-- build:js ../dist/vendor.min.js -->
         <script src="../node_modules/angular/angular.min.js"></script>
         <script src="../node_modules/socket.io-client/dist/socket.io.js"></script>
         <script src="../node_modules/chartist/dist/chartist.js"></script>
+        <!-- endbuild -->
     </head>
     <body ng-app="mainApp" ng-controller="mainController">
         <header class="row space-between">
@@ -32,8 +41,10 @@
             <button class="btn btn-buy">Buy</button>
             <button class="btn btn-sell">Sell</button>
         </footer>
-        <script src="/app/app.js"></script>
-        <script src="/app/services/market.service.js"></script>
-        <script src="/app/components/market-info-table/market-info-table.js"></script>
+         <!-- build:js ../dist/upstox.min.js -->
+        <script src="./app.js"></script>
+        <script src="./services/market.service.js"></script>
+        <script src="./components/market-info-table/market-info-table.js"></script>
+        <!-- endbuild -->
     </body>
 </html>
